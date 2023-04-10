@@ -73,7 +73,76 @@ class ScheduleMessageRepository {
             return sm;
         }
 };
+
+class ScheduleMessageService {
+    ScheduleMessageRepository* scheduleMessageRepository;
+    public:
+    ScheduleMessageService(ScheduleMessageRepository*  scheduleMessageRepository)
+    {
+        
+    }
+    void scheduleMessage(Status status = UNPICKED)
+    {
+        cout << "Messaged scheduled";
+        // Retrived all messages
+        // Schedule the messaged based on timestamp
+        // Update the msg status in the db
+    }
+        
+};
+
+class Scheduler {
+    private:
+    ScheduleMessageService* scheduleMessageService;
+    public:
+        Scheduler(ScheduleMessageService* scheduleMessageService)
+        {
+
+        }
+        void schedule(Status status = UNPICKED)
+        {
+            try
+            {
+                cout << "Starting scheduling";
+                scheduleMessageService->scheduleMessage(UNPICKED);
+            }
+            catch(...)
+            {
+                cout << "Found error";
+            }
+        }
+
+};
 int main()
 {
+
+    ScheduleMessageRepository* smr = new ScheduleMessageRepository();
+    Message msg1,msg2;
+    
+    msg1.id = "3";
+    msg1.date = "2023-03-06T12:00:00Z";
+    msg1.postBy = 86400;
+    msg1.message = "Reminder: Meeting at 2 PM today";
+    msg1.to = "test@test.com";
+    msg1.from = "noreply@test.com";
+
+    msg2.id = "3";
+    msg2.date = "2023-03-06T12:00:00Z";
+    msg2.postBy = 86400;
+    msg2.message = "Reminder: Meeting at 2 PM today";
+    msg2.to = "test@test.com";
+    msg2.from = "noreply@test.com";
+    //messages[0].msg = msg1;
+    //messages[0].status = UNPICKED; 
+    ScheduleMsg messages[2] = {{msg1, UNPICKED},{msg2, UNPICKED}};
+    smr->addMessage(messages[0]);
+    smr->getAllMessages(UNPICKED);
+    ScheduleMessageService* scheduleMessageService = new ScheduleMessageService(smr);
+    Scheduler* scheduler = new Scheduler(scheduleMessageService);
+    scheduler->schedule();
+    /*for(int i = 0; i < messages.size(); i++)
+    {
+        
+    } */   
     return 0;
 }
